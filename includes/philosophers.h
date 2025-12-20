@@ -3,46 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ccavalca <ccavalca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 00:13:21 by ccavalca          #+#    #+#             */
-/*   Updated: 2025/12/20 00:13:22 by ccavalca         ###   ########.fr       */
+/*   Updated: 2025/12/20 14:04:29 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PHILOSOPHERS_H
+# define PHILOSOPHERS_H
 
-#ifndef [PROJECT_NAME_UPPERCASE]_H_
-#define [PROJECT_NAME_UPPERCASE]_H_
-
-/* ============================================================================
+/* ========================================================================
 ** INCLUDES
-** ============================================================================ */
+** ======================================================================== */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-#include <stddef.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <string.h>
+# include <stdio.h>
+# include <stddef.h>
 
-/* ============================================================================
+/* ========================================================================
 ** DEFINES & CONSTANTS
-** ============================================================================ */
+** ======================================================================== */
 
-#define SUCCESS 0
-#define FAILURE -1
-#define TRUE 1
-#define FALSE 0
+# define SUCCESS 0
+# define FAILURE -1
+# define TRUE 1
+# define FALSE 0
 
-/* ============================================================================
+/* ========================================================================
 ** STRUCTURES
-** ============================================================================ */
+** ======================================================================== */
 
 /**
- * struct s_data - Description of your structure
- * @member1: What member1 does
- * @member2: What member2 does
+ * struct s_data - Data structure for philosophers
+ * @member1: First member
+ * @member2: Second member
  *
- * This structure is used for [purpose].
+ * Structure used for [purpose].
  */
 typedef struct s_data
 {
@@ -50,9 +49,9 @@ typedef struct s_data
 	char	*member2;
 }	t_data;
 
-/* ============================================================================
+/* ========================================================================
 ** FUNCTION PROTOTYPES
-** ============================================================================ */
+** ======================================================================== */
 
 /* Initialization functions */
 t_data	*init_data(void);
@@ -65,4 +64,4 @@ int		validate_input(const char *input);
 /* Utility functions */
 char	*my_function(const char *param1, int param2);
 
-#endif /* ![PROJECT_NAME_UPPERCASE]_H_ */
+#endif
