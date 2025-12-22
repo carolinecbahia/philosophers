@@ -3,19 +3,25 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: ccavalca <ccavalca@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/20 00:17:22 by ccavalca          #+#    #+#              #
-#    Updated: 2025/12/20 00:17:48 by ccavalca         ###   ########.fr        #
+#    Updated: 2025/12/22 15:03:53 by ccavalca         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# ============================================================================
+# PROGRAM
+# ============================================================================
+
+NAME		=	philo
 
 # ============================================================================
 # COMPILER & FLAGS
 # ============================================================================
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -std=c99 -pedantic
+CFLAGS		=	-Wall -Wextra -Werror -pthread
 CFLAGS		+=	-I./inc -I./libft/inc
 DEBUG_FLAGS	=	-g3 -DDEBUG
 CFLAGS_OPT	=	-O2 -funroll-loops
@@ -40,8 +46,6 @@ SRC_FILES	=	main.c \
 OBJ_FILES	=	$(SRC_FILES:.c=.o)
 OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_FILES))
 
-TARGET		=	project_name
-
 # ============================================================================
 # LIBRARY
 # ============================================================================
@@ -55,11 +59,11 @@ LIBFT_FLAGS	=	-L$(LIBFT_DIR) -lft
 
 .PHONY: all clean fclean re debug help
 
-all: $(TARGET)
+all: $(NAME)
 
-$(TARGET): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBFT_FLAGS)
-	@echo "✓ $(TARGET) compiled successfully"
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_FLAGS)
+	@echo "✓ $(NAME) compiled successfully"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
@@ -84,7 +88,7 @@ clean:
 	@echo "✓ Object files cleaned"
 
 fclean: clean
-	@rm -f $(TARGET)
+	@rm -f $(NAME)
 	@make -C $(LIBFT_DIR) fclean
 	@echo "✓ All files cleaned"
 
@@ -95,11 +99,11 @@ re: fclean all
 # ============================================================================
 
 run: all
-	@./$(TARGET)
+	@./$(NAME)
 
 valgrind: debug
 	@valgrind --leak-check=full --show-leak-kinds=all \
-		--track-origins=yes ./$(TARGET)
+		--track-origins=yes ./$(NAME)
 
 norm:
 	@norminette $(SRC_DIR) $(INC_DIR)
