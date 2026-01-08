@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/30 06:50:21 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/06 19:06:18 by ccavalca         ###   ########.fr       */
+/*   Created: 2026/01/06 16:57:23 by ccavalca          #+#    #+#             */
+/*   Updated: 2026/01/06 20:23:09 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
 static int	main_loop(t_table *table)
 {
@@ -47,7 +47,7 @@ static t_table	*init_program(int argc, char **argv)
 		error_exit("Malloc failed\n");
 		return (NULL);
 	}
-	if (parser(argc, argv, table))
+	if (parser_bonus(argc, argv, table))
 	{
 		free(table);
 		error_exit("Parser failed\n");
@@ -65,7 +65,7 @@ int	main(int argc, char **argv)
 {
 	t_table	*table;
 
-	if (validate_args(argc, argv))
+	if (validate_args_bonus(argc, argv))
 	{
 		error_exit("Invalid args\n");
 		return (1);

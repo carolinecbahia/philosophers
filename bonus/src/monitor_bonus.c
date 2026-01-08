@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor.c                                          :+:      :+:    :+:   */
+/*   monitor_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/30 07:30:00 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/06 20:50:43 by ccavalca         ###   ########.fr       */
+/*   Created: 2026/01/06 20:19:00 by ccavalca          #+#    #+#             */
+/*   Updated: 2026/01/06 20:30:24 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
-int		check_death(t_table *table)
+int	check_death(t_table *table)
 {
-	int	i;
+	int		i;
 	long	now;
 	long	elapsed;
 
@@ -32,28 +32,52 @@ int		check_death(t_table *table)
 		}
 		i++;
 	}
-	return (0);	
+	return (0);
+}
+
+static void	print_all_ate(t_table *table)
+{
+	long	timestamp;
+
+	timestamp = get_elapsed_time_ms(table->start);
+	printf("%ld All philosophers have eaten %d times\n",
+		timestamp, table->min_meals);
+}
+
+int	check_all_ate(t_table *table)
+{
+	int	i;
+
+	if (table->min_meals == -1)
+		return (0);
+	pthread_mutex_lock(&table->print_mutex);
+	i = 0;
+	while (i < table->num_philos)
+	{
+		if (table->philo[i].meals_eaten < table->min_meals)
+		{
+			pthread_mutex_unlock(&table->print_mutex);
+			return (0);
+		}
+		i++;
+	}
+	print_all_ate(table);
+	pthread_mutex_unlock(&table->print_mutex);
+	return (1);
 }
 
 void	*monitor_routine(void *arg)
 {
 	t_table	*table;
-	int		running;
 
 	table = (t_table *)arg;
-	running = 1;
-	while (running)
+	while (table->simulation == 1)
 	{
-		if (check_death(table))
+		if (check_death(table) || check_all_ate(table))
 		{
-			pthread_mutex_lock(&table->print_mutex);
 			table->simulation = 0;
-			pthread_mutex_unlock(&table->print_mutex);
 			break ;
 		}
-		pthread_mutex_lock(&table->print_mutex);
-		running = table->simulation;
-		pthread_mutex_unlock(&table->print_mutex);
 		usleep(1000);
 	}
 	return (NULL);

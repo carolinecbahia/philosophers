@@ -240,7 +240,7 @@ timestamp_ms X died
 3. **Use mutex para print**:
    ```c
    pthread_mutex_lock(&print_mutex);
-   printf("%ld %d %s\n", timestamp, id, action);
+   printf("%l %d %s\n", timestamp, id, action);
    fflush(stdout);
    pthread_mutex_unlock(&print_mutex);
    ```

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 0025/12/20 00:17:22 by cavalca           #+#    #+#              #
-#    Updated: 2025/12/30 07:27:10 by ccavalca         ###   ########.fr        #
+#                                                          :::      ::::::::   #
+#   Makefile                                             :+:      :+:    :+:   #
+#                                                      +:+ +:+         +:+     #
+#   By: ccavalca <ccavalca@student.42sp.org.br>      +#+  +:+       +#+        #
+#                                                  +#+#+#+#+#+   +#+           #
+#   Created: 0025/12/20 00:17:22 by ccavalca            #+#    #+#             #
+#   Updated: 2026/01/06 20:28:17 by ccavalca           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@
 # ============================================================================
 
 NAME		=	philo
+NAME_BONUS	=	philo_bonus
 
 # ============================================================================
 # COMPILER & FLAGS
@@ -22,9 +23,12 @@ NAME		=	philo
 
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -pthread
-CFLAGS		+=	-I./includes
+CFLAGS		+=	-I./includes -I./libft/inc -I./gnl -I./libft/ft_printf/inc
+CFLAGS_BONUS	=	-Wall -Wextra -Werror -pthread
+CFLAGS_BONUS	+=	-I./bonus/includes -I./libft/inc -I./gnl -I./libft/ft_printf/inc
 DEBUG_FLAGS	=	-g3 -DDEBUG
 CFLAGS_OPT	=	-O2 -funroll-loops
+LIBS		=	-L./libft -lft -pthread
 
 # ============================================================================
 # DIRECTORIES
@@ -35,36 +39,78 @@ INC_DIR		=	includes/
 OBJ_DIR		=	obj/
 LIBFT_DIR	=	libft/
 
+BONUS_SRC_DIR	=	bonus/src/
+BONUS_INC_DIR	=	bonus/includes/
+BONUS_OBJ_DIR	=	obj/bonus/
+
 # ============================================================================
 # FILES
 # ============================================================================
 
 SRC_FILES	=	main.c \
 				utils.c \
+				cleanup_and_error.c \
 				philosopher.c \
+				routines.c \
 				monitor.c \
 				output.c \
 				time.c
 
 OBJ_FILES	=	$(SRC_FILES:.c=.o)
 OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_FILES))
+LIBFT_A		= 	$(LIBFT_DIR)libft.a
+
+# Bonus files
+BONUS_SRC_FILES	=	main_bonus.c \
+					utils_bonus.c \
+					routines_bonus.c \
+					monitor_bonus.c
+
+# Reused from mandatory (compiled with bonus includes)
+REUSED_FILES	=	philosopher.c \
+					output.c \
+					time.c \
+					cleanup_and_error.c
+
+BONUS_OBJ_FILES	=	$(BONUS_SRC_FILES:.c=.o) $(REUSED_FILES:.c=.o)
+BONUS_OBJS		=	$(addprefix $(BONUS_OBJ_DIR), $(BONUS_OBJ_FILES))
 
 # ============================================================================
 # RULES
 # ============================================================================
 
-.PHONY: all clean fclean re debug help
+.PHONY: all clean fclean re debug help bonus
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+$(NAME): $(OBJS) $(LIBFT_A)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 	@echo "✓ $(NAME) compiled successfully"
+
+bonus: $(NAME_BONUS)
+
+$(NAME_BONUS): $(BONUS_OBJS) $(LIBFT_A)
+	@$(CC) $(CFLAGS_BONUS) -o $(NAME_BONUS) $(BONUS_OBJS) $(LIBS)
+	@echo "✓ $(NAME_BONUS) compiled successfully"
+
+$(LIBFT_A):
+	@make -C $(LIBFT_DIR)
+	@echo "✓ libft compiled"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "✓ Compiling $<"
+
+$(BONUS_OBJ_DIR)%.o: $(BONUS_SRC_DIR)%.c
+	@mkdir -p $(BONUS_OBJ_DIR)
+	@$(CC) $(CFLAGS_BONUS) -c $< -o $@
+	@echo "✓ Compiling [BONUS] $<"
+
+$(BONUS_OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(BONUS_OBJ_DIR)
+	@$(CC) $(CFLAGS_BONUS) -c $< -o $@
+	@echo "✓ Compiling [REUSED] $<"
 
 debug: CFLAGS += $(DEBUG_FLAGS)
 debug: clean all
@@ -76,10 +122,13 @@ release: clean all
 
 clean:
 	@rm -rf $(OBJ_DIR)
+	@rm -rf $(BONUS_OBJ_DIR)
+	@make clean -C $(LIBFT_DIR)
 	@echo "✓ Object files cleaned"
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(NAME_BONUS)
+	@make fclean -C $(LIBFT_DIR)
 	@echo "✓ All files cleaned"
 
 re: fclean all
