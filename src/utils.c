@@ -6,7 +6,7 @@
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 07:30:00 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/06 20:35:40 by ccavalca         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:24:33 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ int	parser(int ac, char **av, t_table *table)
 	else
 		table->meals_required = -1;
 	table->start = get_time_ms();
-	if (table->time_to_die <= (table->time_to_eat + table->time_to_sleep))
-	{
-		printf("Error: time_to_die must be > time_to_eat + time_to_sleep\n");
-		printf("Recommended: time_to_die >= %ld (at least 100ms margin)\n",
-			table->time_to_eat + table->time_to_sleep + 100);
-		return (1);
-	}
 	return (0);
 }
 
