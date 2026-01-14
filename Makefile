@@ -17,6 +17,8 @@
 NAME		=	philo
 NAME_BONUS	=	philo_bonus
 
+MAKEFLAGS	+=	--no-print-directory
+
 # ============================================================================
 # COMPILER & FLAGS
 # ============================================================================
@@ -38,6 +40,7 @@ SRC_DIR		=	src/
 INC_DIR		=	includes/
 OBJ_DIR		=	obj/
 LIBFT_DIR	=	libft/
+LIBFT_MAKE	:=	$(MAKE) -C $(LIBFT_DIR) --silent
 
 BONUS_SRC_DIR	=	bonus/src/
 BONUS_INC_DIR	=	bonus/includes/
@@ -49,6 +52,7 @@ BONUS_OBJ_DIR	=	obj/bonus/
 
 SRC_FILES	=	main.c \
 				utils.c \
+				validation.c \
 				cleanup_and_error.c \
 				philosopher.c \
 				routines.c \
@@ -79,7 +83,7 @@ BONUS_OBJS		=	$(addprefix $(BONUS_OBJ_DIR), $(BONUS_OBJ_FILES))
 # RULES
 # ============================================================================
 
-.PHONY: all clean fclean re debug help bonus
+.PHONY: all clean fclean re debug help
 
 all: $(NAME)
 
@@ -87,14 +91,14 @@ $(NAME): $(OBJS) $(LIBFT_A)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 	@echo "✓ $(NAME) compiled successfully"
 
-bonus: $(NAME_BONUS)
+# bonus: $(NAME_BONUS)
 
-$(NAME_BONUS): $(BONUS_OBJS) $(LIBFT_A)
-	@$(CC) $(CFLAGS_BONUS) -o $(NAME_BONUS) $(BONUS_OBJS) $(LIBS)
-	@echo "✓ $(NAME_BONUS) compiled successfully"
+# $(NAME_BONUS): $(BONUS_OBJS) $(LIBFT_A)
+# 	@$(CC) $(CFLAGS_BONUS) -o $(NAME_BONUS) $(BONUS_OBJS) $(LIBS)
+# 	@echo "✓ $(NAME_BONUS) compiled successfully"
 
 $(LIBFT_A):
-	@make -C $(LIBFT_DIR)
+	@$(LIBFT_MAKE)
 	@echo "✓ libft compiled"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
@@ -123,12 +127,12 @@ release: clean all
 clean:
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(BONUS_OBJ_DIR)
-	@make clean -C $(LIBFT_DIR)
+	@$(LIBFT_MAKE) clean
 	@echo "✓ Object files cleaned"
 
 fclean: clean
 	@rm -f $(NAME) $(NAME_BONUS)
-	@make fclean -C $(LIBFT_DIR)
+	@$(LIBFT_MAKE) fclean
 	@echo "✓ All files cleaned"
 
 re: fclean all

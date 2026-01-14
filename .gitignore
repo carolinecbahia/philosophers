@@ -6,3 +6,4 @@ philo_bonus
 philo_tsan
 obj/
 obj_bonus/
+*.a

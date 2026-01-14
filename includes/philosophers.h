@@ -53,6 +53,7 @@ void	philo_think(t_table *table, int philo_id);
 /* Monitor functions (monitor.c) */
 void	*monitor_routine(void *arg);
 int		check_death(t_table *table);
+int		check_all_ate(t_table *table);
 
 /* Output functions (output.c) */
 void	print_status(t_table *table, int philo_id, char *status);

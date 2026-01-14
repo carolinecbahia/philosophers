@@ -19,42 +19,45 @@ void	return_error(char *error_msg)
 
 void	cleanup(t_table *table)
 {
-    int	i;
+	int	i;
 
-    if (!table)
-        return ;
-    if (table->forks)
-    {
-        i = 0;
-        while (i < table->num_philos)
-        {
-            pthread_mutex_destroy(&table->forks[i]);
-            i++;
-        }
-        free(table->forks);
-    }
-    if (table->philo)
-        free(table->philo);
-    pthread_mutex_destroy(&table->print_mutex);
-    free(table);
+	if (!table)
+		return ;
+	if (table->forks)
+	{
+		i = 0;
+		while (i < table->num_philos)
+		{
+			pthread_mutex_destroy(&table->forks[i]);
+			i++;
+		}
+		free(table->forks);
+	}
+	if (table->philo)
+		free(table->philo);
+	pthread_mutex_destroy(&table->print_mutex);
+	pthread_mutex_destroy(&table->data_mutex);
+	free(table);
 }
 
 void	destroy_mutexes(t_table *table)
 {
-    int	i;
+	int	i;
 
-    if (!table || !table->forks)
-        return ;
-    i = 0;
-    while (i < table->num_philos)
-    {
-        pthread_mutex_destroy(&table->forks[i]);
-        i++;
-    }
-    pthread_mutex_destroy(&table->print_mutex);
+	if (!table || !table->forks)
+		return ;
+	i = 0;
+	while (i < table->num_philos)
+	{
+		pthread_mutex_destroy(&table->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&table->print_mutex);
+	pthread_mutex_destroy(&table->data_mutex);
 }
 
 void	error_exit(char *error_msg)
 {
-    ft_printf("Error: %s\n", error_msg);
+	ft_printf("Error: %s\n", error_msg);
+	exit(1);
 }

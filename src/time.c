@@ -16,13 +16,13 @@ long	get_time_ms(void)
 {
 	struct timeval	time;
 	int				ms_time;
-	
+
 	gettimeofday(&time, NULL);
 	ms_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (ms_time);
 }
 
-long	get_elapsed_time_ms(long	s_time)
+long	get_elapsed_time_ms(long s_time)
 {
 	return (get_time_ms() - s_time);
 }
@@ -31,8 +31,8 @@ int	ft_usleep(long msecs)
 {
 	long	start;
 	long	curr;
-	
-	start= get_time_ms();
+
+	start = get_time_ms();
 	while (1)
 	{
 		curr = get_time_ms();

@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "philosophers.h"
 
 void	philo_eat(t_philo *philo, t_table *table)
 {
-	pthread_mutex_lock(&table->print_mutex);
+	pthread_mutex_lock(&table->data_mutex);
 	philo->last_meal = get_time_ms();
-	pthread_mutex_unlock(&table->print_mutex);
+	philo->meals_eaten++;
+	pthread_mutex_unlock(&table->data_mutex);
 	print_status(table, philo->id, "is eating");
-	ft_usleep(table->time_to_eat);	
+	ft_usleep(table->time_to_eat);
 }
 
 void	philo_sleep(t_table *table, int philo_id)

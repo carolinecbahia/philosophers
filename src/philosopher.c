@@ -16,9 +16,9 @@ static int	check_simulation(t_table *table)
 {
 	int	running;
 
-	pthread_mutex_lock(&table->print_mutex);
+	pthread_mutex_lock(&table->data_mutex);
 	running = table->simulation;
-	pthread_mutex_unlock(&table->print_mutex);
+	pthread_mutex_unlock(&table->data_mutex);
 	return (running);
 }
 
@@ -26,8 +26,8 @@ void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
 	t_table	*table;
-	
-	philo = (t_philo*)arg;
+
+	philo = (t_philo *)arg;
 	table = philo->table;
 	if (philo->id % 2 == 0)
 		usleep(1000);
