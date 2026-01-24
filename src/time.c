@@ -6,25 +6,40 @@
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 07:30:00 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/06 14:47:53 by ccavalca         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:59:48 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-long	get_time_ms(void)
+long get_time_ms(void)
 {
-	struct timeval	time;
-	int				ms_time;
+	struct timeval time;
+	long ms_time;
 
 	gettimeofday(&time, NULL);
-	ms_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (ms_time);
+	ms_time = (time.tv_sec * 1000L) + (time.tv_usec / 1000);
+	return ms_time;
 }
 
-long	get_elapsed_time_ms(long s_time)
+long get_elapsed_time_ms(long s_time)
 {
 	return (get_time_ms() - s_time);
+}
+
+long	get_time_us(void)
+{
+	struct timeval	time;
+	long		us_time;
+
+	gettimeofday(&time, NULL);
+	us_time = (time.tv_sec * 1000000L) + time.tv_usec;
+	return (us_time);
+}
+
+long	get_elapsed_time_us(long s_time)
+{
+	return (get_time_us() - s_time);
 }
 
 int	ft_usleep(long msecs)

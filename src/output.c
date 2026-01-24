@@ -6,7 +6,7 @@
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 07:30:00 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/06 17:00:26 by ccavalca         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:57:22 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_status(t_table *table, int philo_id, char *status)
 {
-	long	timestamp;
+	long timestamp;
 
 	pthread_mutex_lock(&table->data_mutex);
 	if (table->simulation == 0)
@@ -24,16 +24,16 @@ void	print_status(t_table *table, int philo_id, char *status)
 	}
 	pthread_mutex_unlock(&table->data_mutex);
 	pthread_mutex_lock(&table->print_mutex);
-	timestamp = get_elapsed_time_ms(table->start);
+	timestamp = get_elapsed_time_us(table->start);
 	printf("%ld %d %s\n", timestamp, philo_id, status);
 	pthread_mutex_unlock(&table->print_mutex);
 }
 
 void	print_death(t_table *table, int philo_id)
 {
-	long	timestamp;
+	long timestamp;
 
-	timestamp = get_elapsed_time_ms(table->start);
+	timestamp = get_elapsed_time_us(table->start);
 	pthread_mutex_lock(&table->data_mutex);
 	table->simulation = 0;
 	pthread_mutex_unlock(&table->data_mutex);

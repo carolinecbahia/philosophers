@@ -6,7 +6,7 @@
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 07:30:00 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/06 20:50:43 by ccavalca         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:56:17 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&table->data_mutex);
 			break ;
 		}
-		usleep(1000);
+		usleep(100);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 07:30:00 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/06 20:50:43 by ccavalca         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:50:52 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,6 @@ static int	check_simulation(t_table *table)
 	return (running);
 }
 
-void	*philo_routine(void *arg)
-{
-	t_philo	*philo;
-	t_table	*table;
-
-	philo = (t_philo *)arg;
-	table = philo->table;
-	if (philo->id % 2 == 0)
-		usleep(1000);
-	while (check_simulation(table))
-	{
-		philo_think(table, philo->id);
-		take_forks(philo, table);
-		philo_eat(philo, table);
-		drop_forks(philo);
-		philo_sleep(table, philo->id);
-	}
-	return (NULL);
-}
-
 void	take_forks(t_philo *philo, t_table *table)
 {
 	if (table->num_philos == 1)
@@ -49,7 +29,7 @@ void	take_forks(t_philo *philo, t_table *table)
 		pthread_mutex_lock(philo->fork_left);
 		print_status(table, philo->id, "has taken a fork");
 		while (check_simulation(table))
-			usleep(1000);
+			usleep(500);
 		pthread_mutex_unlock(philo->fork_left);
 		return ;
 	}
@@ -73,4 +53,25 @@ void	drop_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
+}
+
+void	*philo_routine(void *arg)
+{
+	t_philo	*philo;
+	t_table	*table;
+
+	philo = (t_philo *)arg;
+	table = philo->table;
+	if (philo->id % 2 == 0)
+		usleep(500);
+	philo_think(table, philo->id);
+	while (check_simulation(table))
+	{
+		take_forks(philo, table);
+		philo_eat(philo, table);
+		drop_forks(philo);
+		philo_sleep(table, philo->id);
+		philo_think(table, philo->id);
+	}
+	return (NULL);
 }
