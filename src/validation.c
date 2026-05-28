@@ -6,7 +6,7 @@
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 00:00:00 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/14 00:00:00 by ccavalca         ###   ########.fr       */
+/*   Updated: 2026/05/28 15:38:49 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static int	validate_single_arg(char *arg, int pos)
 		if (arg[j] < '0' || arg[j] > '9')
 		{
 			printf("Error: Invalid argument at position %d\n", pos);
+			printf("Usage: ./philo <num> <die> <eat> <sleep> [must_eat]\n");
 			return (1);
 		}
 		j++;
@@ -45,6 +46,7 @@ static int	validate_single_arg(char *arg, int pos)
 	if (ft_atoi(arg) <= 0)
 	{
 		printf("Error: Invalid argument at position %d\n", pos);
+		printf("Usage: ./philo <num> <die> <eat> <sleep> [must_eat]\n");
 		return (1);
 	}
 	return (0);

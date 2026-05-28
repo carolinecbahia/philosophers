@@ -6,7 +6,7 @@
 /*   By: ccavalca <ccavalca@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 06:50:21 by ccavalca          #+#    #+#             */
-/*   Updated: 2026/01/06 19:06:18 by ccavalca         ###   ########.fr       */
+/*   Updated: 2026/05/28 15:38:49 by ccavalca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ int	main(int argc, char **argv)
 	t_table	*table;
 
 	if (validate_args(argc, argv))
-	{
-		error_exit("Invalid args\n");
 		return (1);
-	}
 	table = init_program(argc, argv);
 	if (!table)
 		return (1);
